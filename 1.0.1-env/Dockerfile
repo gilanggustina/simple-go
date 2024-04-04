@@ -7,4 +7,4 @@ ENV PORT=8080
 
 COPY main-env.go /app/main-env.go
 
-CMD [ "go", "run", "/app/main-env.go" ]
+CMD ["go", "run", "/app/main-env.go"]
