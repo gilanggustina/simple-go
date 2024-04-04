@@ -40,7 +40,7 @@ services:
       - sib-seal-ec2-network
 
 networks:
-  seal6-network:
+  sib-seal-ec2-network:
     name: sib-seal-ec2-network
 
 volumes:
