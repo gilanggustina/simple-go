@@ -2,24 +2,27 @@ version: '3.8'
 
 services:
   mongo:
+    container_name: mongo
     image: mongo:4.0-Xenial
     ports:
       - 27017:27017
+    networks:
+      - sib-seal-ec2-network
     volumes:
-      - mong_data:/data/db
+      - mongo_data:/data/db
 
   redis:
     image: redis  
     command: ["redis-server", "--appendonly", "yes"]
-    ports:
-      - 6379:6379
     volumes:
       - redis_data:/data
+    ports:
+      - 6379:6379
     networks:
-      - seal6-network
+      - sib-seal-ec2-network
       
   sib-seal-ec2-test:
-    image: sib-seal-ec2-test
+    image: sib-seal-ec2-test:1.0.2
     container_name: sib-seal-ec2-test
     ports:
       - 8080:8080
@@ -27,13 +30,19 @@ services:
       - mongo
       - redis
     environment:
-      - name=value
+      - HELLO_MESSAGE="Hello, Universe!"
+      - PORT=8080
+      - MONGO_ADDR=mongo
+      - MONGO_PORT=27017
+      - REDIS_ADDR=redis
+      - REDIS_PORT=6379
     networks:
-      - seal6-network
+      - sib-seal-ec2-network
 
 networks:
   seal6-network:
-    name: seal6-network
+    name: sib-seal-ec2-network
 
 volumes:
-  mong_data:
+  mongo_data:
+  redis_data:
